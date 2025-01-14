@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -33,13 +32,9 @@ jobs:
         run: |
           git fetch origin main
           git diff --quiet origin/main HEAD -- src || echo "true" > src_changed.txt
-
-      - name: Update modules and build
-        if: steps.check_changes.outputs.src_changed == 'true'
+      
+      - name: Debug
         run: |
-          npm update
-          npm run build
+          echo "src_changed: ${{ steps.check_changes.outputs.src_changed }}"
 
-      - name: Use cached build
-        if: steps.check_changes.outputs.src_changed != 'true'
-        run: echo "Using cached build"
+        
